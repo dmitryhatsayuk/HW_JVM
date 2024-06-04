@@ -1,16 +1,18 @@
 
+
 public class JvmComprehension {
 
-    public static void main(String[] args) {
-        int i = 1;                      // 1
-        Object o = new Object();        // 2
-        Integer ii = 2;                 // 3
-        printAll(o, i, ii);             // 4
-        System.out.println("finished"); // 7
+    public static void main(String[] args) {   //0 в стеке создается фрейм
+        int i = 1;                      // 1 во фрейме main  записывается значение примитивного класса
+        Object o = new Object();        // 2 в куче создается объект о, во фрейме записывается ссылка на объект
+        Integer ii = 2;                 // 3 это не примитив, создается объект в куче и ссылка на него во фрейме
+        printAll(o, i, ii);             // 4 создаем новый фрейм в котором будет две ссылки на объекты и одно значение примитива
+        System.out.println("finished"); // 7 создается еще один фрейм со ссылкой на стринговый объект
     }
 
     private static void printAll(Object o, int i, Integer ii) {
-        Integer uselessVar = 700;                   // 5
-        System.out.println(o.toString() + i + ii);  // 6
+        Integer uselessVar = 700;                   // 5 а вот тут интересно, если бы был int он бы не попал после
+        // компиляции в байт-код, как неиспользуемый, но тут Integer, поэтому будет объект в куче и ссылка на него во втором фрейме
+        System.out.println(o.toString() + i + ii);  // 6 в новом фрейме создается новый объект куда передастся ссылка на результат
     }
 }
